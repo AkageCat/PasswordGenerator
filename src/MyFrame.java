@@ -5,6 +5,9 @@ import java.awt.datatransfer.StringSelection;
 
 public class MyFrame extends JFrame {
     public MyFrame() {
+        ImageIcon showIcon = new ImageIcon("C:\\Users\\Danila\\Java\\PasswordGenerator\\assets\\icons\\show.png");
+        ImageIcon hideIcon = new ImageIcon("C:\\Users\\Danila\\Java\\PasswordGenerator\\assets\\icons\\hide.png");
+        ImageIcon copyIcon = new ImageIcon("C:\\Users\\Danila\\Java\\PasswordGenerator\\assets\\icons\\copy.png");
         getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Password Generator");
@@ -28,20 +31,20 @@ public class MyFrame extends JFrame {
             jDialog.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
             JPasswordField passwordField = new JPasswordField(password.getValue());
             jDialog.add(passwordField);
-            JButton showButton = new JButton("Show");
+            JButton showButton = new JButton(showIcon);
             jDialog.add(showButton);
             showButton.addActionListener(_ -> {
                 if (password.isVisible()) {
                     passwordField.setEchoChar('*');
                     password.setVisible(false);
-                    showButton.setText("Show");
+                    showButton.setIcon(showIcon);
                 } else {
                     passwordField.setEchoChar((char) 0);
                     password.setVisible(true);
-                    showButton.setText("Hide");
+                    showButton.setIcon(hideIcon);
                 }
             });
-            JButton copyButton = new JButton("Copy");
+            JButton copyButton = new JButton(copyIcon);
             jDialog.add(copyButton);
             copyButton.addActionListener(_ -> {
                 StringSelection stringSelection = new StringSelection(passwordField.getText());
