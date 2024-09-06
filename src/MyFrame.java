@@ -2,19 +2,42 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.Objects;
 
 public class MyFrame extends JFrame {
     public MyFrame() {
-        ImageIcon showIcon = new ImageIcon("C:\\Users\\Danila\\Java\\PasswordGenerator\\assets\\icons\\show.png");
-        ImageIcon hideIcon = new ImageIcon("C:\\Users\\Danila\\Java\\PasswordGenerator\\assets\\icons\\hide.png");
-        ImageIcon copyIcon = new ImageIcon("C:\\Users\\Danila\\Java\\PasswordGenerator\\assets\\icons\\copy.png");
-        getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
+        ImageIcon showIcon = new ImageIcon(Main.class.getResource("\\resources\\images\\show.png"));
+        ImageIcon hideIcon = new ImageIcon(Main.class.getResource("\\resources\\images\\hide.png"));
+        ImageIcon copyIcon = new ImageIcon(Main.class.getResource("\\resources\\images\\copy.png"));
+//        getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Password Generator");
 
         String[] options = {"Apple Easy to Type", "Passcode", "Password"};
         JComboBox<String> comboBox = new JComboBox<>(options);
         getContentPane().add(comboBox);
+
+        JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 8));
+        getContentPane().add(jPanel);
+        JTextField passwordLength = new JTextField("6");
+        comboBox.addActionListener(_ -> {
+            String selectedItem = Objects.requireNonNull(comboBox.getSelectedItem()).toString();
+            jPanel.removeAll();
+            switch (selectedItem) {
+                case "Apple Easy to Type":
+                    break;
+                case "Passcode", "Password":
+                    jPanel.add(new JLabel("Length"));
+                    jPanel.add(passwordLength);
+                    break;
+            }
+            jPanel.revalidate();
+            jPanel.repaint();
+            pack();
+            repaint();
+        });
+
         JButton generateButton = new JButton("Generate");
         getContentPane().add(generateButton);
         generateButton.addActionListener(_ -> {
@@ -23,9 +46,9 @@ public class MyFrame extends JFrame {
             if (comboBox.getSelectedItem() == options[0]) {
                 password.setValue(generator.generateAppleEasyToTypePassword());
             } else if (comboBox.getSelectedItem() == options[1]) {
-                password.setValue(generator.generatePasscode(6));
+                password.setValue(generator.generatePasscode(Integer.parseInt(passwordLength.getText())));
             } else if (comboBox.getSelectedItem() == options[2]) {
-                password.setValue(generator.generatePassword(20));
+                password.setValue(generator.generatePassword(Integer.parseInt(passwordLength.getText())));
             }
             JDialog jDialog = new JDialog(this, "Password", true);
             jDialog.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
