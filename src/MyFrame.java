@@ -9,6 +9,7 @@ public class MyFrame extends JFrame {
         ImageIcon showIcon = new ImageIcon(Main.class.getResource("\\resources\\images\\show.png"));
         ImageIcon hideIcon = new ImageIcon(Main.class.getResource("\\resources\\images\\hide.png"));
         ImageIcon copyIcon = new ImageIcon(Main.class.getResource("\\resources\\images\\copy.png"));
+        ImageIcon favoriteIcon = new ImageIcon(Main.class.getResource("\\resources\\images\\favorite.png"));
 //        getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -53,6 +54,7 @@ public class MyFrame extends JFrame {
             JDialog jDialog = new JDialog(this, "Password", true);
             jDialog.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 8));
             JPasswordField passwordField = new JPasswordField(password.getValue());
+            passwordField.setFont(new Font("Ubuntu Sans Mono", Font.BOLD, 14));
             jDialog.add(passwordField);
             JButton showButton = new JButton(showIcon);
             jDialog.add(showButton);
@@ -74,6 +76,8 @@ public class MyFrame extends JFrame {
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 clipboard.setContents(stringSelection, null);
             });
+            MyButton myButton = new MyButton(favoriteIcon);
+            jDialog.add(myButton);
             jDialog.pack();
             jDialog.setLocationRelativeTo(this);
             jDialog.setVisible(true);
